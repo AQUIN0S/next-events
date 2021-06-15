@@ -1,0 +1,27 @@
+@use '../../styles/theme.scss';
+
+$navbar-height: 3rem;
+
+.header {
+  position: sticky;
+  top: 0;
+  height: $navbar-height;
+  background-color: theme.$bg-colour;
+  border-bottom: 1px solid theme.$secondary-colour;
+  box-sizing: content-box;
+  display: flex;
+  flex-direction: row;
+
+  a {
+    display: block;
+    line-height: $navbar-height;
+    height: $navbar-height;
+    padding: 0 1rem;
+    color: white;
+    text-decoration: none;
+  }
+
+  a:hover {
+    background-color: theme.$content-colour;
+  }
+}

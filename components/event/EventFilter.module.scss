@@ -1,0 +1,88 @@
+@use '../../styles/theme.scss';
+@use 'sass:math';
+
+form.filter {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 2rem;
+  display: flex;
+  flex-direction: row;
+
+  > div {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+
+    > div {
+      display: flex;
+      width: auto;
+      align-items: center;
+
+      > div.customSelect {
+        margin-left: 2rem;
+        position: relative;
+        box-sizing: content-box;
+        border: 1px solid theme.$secondary-colour;
+        border-radius: 1rem;
+
+        > select {
+          width: 7rem;
+          background-color: theme.$bg-colour;
+          color: theme.$primary-colour;
+          appearance: none;
+          padding: 0.5rem 1rem;
+          border: none;
+          border-radius: 1rem;
+          outline: none;
+        }
+
+        > .customArrow {
+          position: absolute;
+          top: 0;
+          right: 0;
+          display: block;
+          height: 100%;
+          width: 2rem;
+          border-radius: 0 1rem 1rem 0;
+          background-color: theme.$content-colour;
+          pointer-events: none;
+
+          $arrow-size: 0.35rem;
+          $arrow-pos: 35%;
+
+          &::before,
+          &::after {
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 0;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-sizing: border-box;
+          }
+
+          &::before {
+            border-left: $arrow-size solid transparent;
+            border-right: $arrow-size solid transparent;
+            border-bottom: $arrow-size solid theme.$secondary-colour;
+            top: $arrow-pos;
+          }
+
+          &::after {
+            border-left: $arrow-size solid transparent;
+            border-right: $arrow-size solid transparent;
+            border-top: $arrow-size solid theme.$secondary-colour;
+            top: 100% - $arrow-pos;
+          }
+        }
+      }
+    }
+
+    > button {
+      background-color: theme.$bg-colour;
+      color: theme.$primary-colour;
+      padding: 0.5rem 1rem;
+      border-radius: 1rem;
+    }
+  }
+}

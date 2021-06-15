@@ -1,0 +1,14 @@
+@use '../../styles/theme';
+$list-gap: 3rem;
+
+ul.list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
+  li:not(:last-child) {
+    padding-bottom: $list-gap;
+    border-bottom: 1px solid theme.$secondary-colour;
+    margin-bottom: $list-gap;
+  }
+}
