@@ -4,6 +4,7 @@ $navbar-height: 3rem;
 
 .header {
   position: sticky;
+  z-index: 10;
   top: 0;
   height: $navbar-height;
   background-color: theme.$bg-colour;

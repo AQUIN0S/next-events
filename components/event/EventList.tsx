@@ -1,4 +1,4 @@
-import { Event } from "../../dummy-data/data";
+import { Event } from "../../util/fetch-events";
 import EventItem from "./EventItem";
 import styles from "./EventList.module.scss";
 

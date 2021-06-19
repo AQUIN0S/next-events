@@ -1,8 +1,9 @@
 import Head from "next/head";
-import { getFeaturedEvents } from "../dummy-data/data";
 import EventList from "../components/event/EventList";
+import { getFeaturedEvents } from "../util/fetch-events";
+import { InferGetStaticPropsType } from "next";
 
-const Home = () => {
+const Home = ({ events }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <div className="background">
       <Head>
@@ -10,10 +11,20 @@ const Home = () => {
         <meta name="description" content="View events in your area!" />
       </Head>
       <main className="content">
-        <EventList events={getFeaturedEvents()} />
+        <EventList events={events} />
       </main>
     </div>
   );
 };
+
+export async function getStaticProps() {
+  const events = await getFeaturedEvents();
+  return {
+    props: {
+      events: events,
+    },
+    revalidate: 10,
+  };
+}
 
 export default Home;

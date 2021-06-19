@@ -1,11 +1,11 @@
-import { Event } from "../../dummy-data/data";
+import { Event } from "../../util/fetch-events";
 import Link from "next/link";
 import styles from "./EventItem.module.scss";
 
 export default function EventItem({ event }: { event: Event }) {
   const { title, image, date, location, id } = event;
 
-  const humanReadableDate = new Date(date).toLocaleDateString("en-UK", {
+  const humanReadableDate = new Date(date).toLocaleDateString("en-GB", {
     day: "numeric",
     month: "long",
     year: "numeric",
