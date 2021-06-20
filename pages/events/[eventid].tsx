@@ -3,8 +3,19 @@ import Link from "next/link";
 import Head from "next/head";
 import { GetStaticPropsContext } from "next";
 import { getEventById, getAllEventIds, Event } from "../../util/fetch-events";
+import {
+  getCommentsForEvent,
+  SerializableComment,
+} from "../../util/fetch-comments";
+import CommentsSection from "../../components/comments/CommentsSection";
 
-const EventPage = ({ event }: { event: Event }) => {
+const EventPage = ({
+  event,
+  comments,
+}: {
+  event: Event;
+  comments: SerializableComment[];
+}) => {
   if (event) {
     const humanReadableDate = new Date(event.date).toLocaleDateString("en-GB", {
       day: "numeric",
@@ -30,6 +41,11 @@ const EventPage = ({ event }: { event: Event }) => {
             <p>{event.location}</p>
             <p>{event.description}</p>
           </main>
+          <CommentsSection
+            comments={comments.map(({ timestamp, name, content, id }) => {
+              return { id, timestamp: new Date(timestamp), name, content };
+            })}
+          />
         </div>
       </Fragment>
     );
@@ -48,22 +64,7 @@ const EventPage = ({ event }: { event: Event }) => {
   }
 };
 
-export async function getStaticProps({
-  params,
-}: GetStaticPropsContext): Promise<
-  | {
-      props: {
-        event: Event;
-      };
-      revalidate: number;
-      notFound?: undefined;
-    }
-  | {
-      notFound: boolean;
-      props?: undefined;
-      revalidate?: undefined;
-    }
-> {
+export async function getStaticProps({ params }: GetStaticPropsContext) {
   if (!params || !params.eventid || Array.isArray(params.eventid)) {
     return {
       notFound: true,
@@ -71,11 +72,13 @@ export async function getStaticProps({
   }
 
   const event = await getEventById(params.eventid);
+  const comments = await getCommentsForEvent(params.eventid);
 
   if (event) {
     return {
       props: {
-        event: event,
+        event,
+        comments,
       },
       revalidate: 10,
     };
