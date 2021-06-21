@@ -1,12 +1,7 @@
-export default function CommentItem({
-  name,
-  content,
-  timestamp,
-}: {
-  name: string;
-  content: string;
-  timestamp: Date;
-}) {
+import { Comment } from "../../util/fetch-comments";
+
+export default function CommentItem({ comment }: { comment: Comment }) {
+  const { name, timestamp, content } = comment;
   return (
     <div>
       <h3>{name}</h3>
