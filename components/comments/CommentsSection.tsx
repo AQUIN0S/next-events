@@ -1,8 +1,15 @@
 import CommentsList from "./CommentsList";
 import { Comment } from "../../util/fetch-comments";
-import { useState } from "react";
+import { useState, Fragment } from "react";
+import CommentsForm from "./CommentsForm";
 
-export default function CommentsSection({ comments }: { comments: Comment[] }) {
+export default function CommentsSection({
+  eventId,
+  comments,
+}: {
+  eventId: string;
+  comments: Comment[];
+}) {
   const [hideComments, setHideComments] = useState(true);
 
   const toggleHideComments = () => {
@@ -12,7 +19,14 @@ export default function CommentsSection({ comments }: { comments: Comment[] }) {
   return (
     <section>
       <button onClick={toggleHideComments}>Toggle Comments</button>
-      {hideComments ? "" : <CommentsList comments={comments} />}
+      {hideComments ? (
+        ""
+      ) : (
+        <Fragment>
+          <CommentsForm eventId={eventId} />
+          <CommentsList comments={comments} />
+        </Fragment>
+      )}
     </section>
   );
 }

@@ -32,3 +32,6 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# credentials file with private keys (hack my machine, I dare you)
+credentials/

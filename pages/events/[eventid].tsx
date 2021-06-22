@@ -45,6 +45,7 @@ const EventPage = ({
             comments={comments.map(({ timestamp, name, content, id }) => {
               return { id, timestamp: new Date(timestamp), name, content };
             })}
+            eventId={event.id}
           />
         </div>
       </Fragment>

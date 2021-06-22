@@ -1,7 +1,11 @@
-const db_path = "https://next-events-18655-default-rtdb.firebaseio.com";
+import { commentsPath } from "./firebase";
 
 type FirebaseCommentResponse = {
-  [key: string]: SerializableComment;
+  [key: string]: {
+    timestamp: string;
+    name: string;
+    content: string;
+  };
 };
 
 export type SerializableComment = {
@@ -18,8 +22,14 @@ export type Comment = {
   content: string;
 };
 
-export async function getCommentsForEvent(eventId: string) {
-  const response = await fetch(`${db_path}/events/${eventId}/comments.json`);
+export type CommentContent = {
+  timestamp: string;
+  name: string;
+  content: string;
+};
+
+export async function getCommentsForEvent(eventID: string) {
+  const response = await fetch(`${commentsPath(eventID)}.json`);
   const parsedResponse: FirebaseCommentResponse = await response.json();
 
   const comments: SerializableComment[] = [];
@@ -27,7 +37,7 @@ export async function getCommentsForEvent(eventId: string) {
   for (const key in parsedResponse) {
     const { timestamp, name, content } = parsedResponse[key];
     comments.push({
-      id: `${eventId} ${key}`,
+      id: `${eventID} ${key}`,
       timestamp,
       name,
       content,
@@ -35,4 +45,17 @@ export async function getCommentsForEvent(eventId: string) {
   }
 
   return comments;
+}
+
+export async function submitCommentForEvent(
+  comment: CommentContent,
+  eventID: string
+) {
+  fetch(`${commentsPath(eventID)}.json`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(comment),
+  });
 }

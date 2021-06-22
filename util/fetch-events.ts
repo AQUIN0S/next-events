@@ -1,3 +1,5 @@
+import { eventsPath } from "./firebase";
+
 export interface Event extends EventDetails {
   id: string;
 }
@@ -15,17 +17,17 @@ type FireBaseEventResponse = {
   [key: string]: EventDetails;
 };
 
-const db_path = "https://next-events-18655-default-rtdb.firebaseio.com/events";
+const req_url = `${eventsPath}.json`;
 
 export async function getFeaturedEvents(): Promise<Event[]> {
-  const response = await fetch(db_path + ".json");
+  const response = await fetch(req_url);
   const parsedResponse: FireBaseEventResponse = await response.json();
   const events = parseIntoEventArray(parsedResponse);
   return events.filter((event) => event.isFeatured);
 }
 
 export async function getAllEventIds() {
-  const response = await fetch(db_path + ".json");
+  const response = await fetch(req_url);
   const parsedResponse: FireBaseEventResponse = await response.json();
   const eventIds: string[] = [];
   for (const id in parsedResponse) {
@@ -36,7 +38,7 @@ export async function getAllEventIds() {
 }
 
 export async function getAllEvents(): Promise<Event[]> {
-  const response = await fetch(db_path + ".json");
+  const response = await fetch(req_url);
   const parsedResponse: FireBaseEventResponse = await response.json();
   const events = parseIntoEventArray(parsedResponse);
   return events;
@@ -49,7 +51,7 @@ export async function getFilteredEvents({
   year: number;
   month: number;
 }): Promise<Event[]> {
-  const response = await fetch(db_path + ".json");
+  const response = await fetch(req_url);
   const parsedResponse: FireBaseEventResponse = await response.json();
   const events = parseIntoEventArray(parsedResponse);
 
@@ -64,7 +66,7 @@ export async function getFilteredEvents({
 }
 
 export async function getEventById(id: string): Promise<Event | undefined> {
-  const response = await fetch(`${db_path}/${id}.json`);
+  const response = await fetch(`${eventsPath}/${id}.json`);
   const parsedResponse: EventDetails = await response.json();
   return { ...parsedResponse, id };
 }
